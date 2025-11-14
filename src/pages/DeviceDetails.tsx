@@ -6,9 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useToast } from "@/hooks/use-toast";
 
 const DeviceDetails = () => {
   const { id } = useParams();
+  const { toast } = useToast();
 
   const performanceData = [
     { time: "10:00", cpu: 45, memory: 62, network: 120 },
@@ -187,15 +189,41 @@ const DeviceDetails = () => {
 
         {/* Action Buttons */}
         <div className="mt-8 flex gap-4">
-          <Button className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90 glow-cyan">
+          <Button 
+            onClick={() => {
+              toast({
+                title: "Security Scan Initiated",
+                description: `Running comprehensive scan on ${id}...`,
+              });
+            }}
+            className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90 glow-cyan"
+          >
             <Shield className="mr-2 h-4 w-4" />
             Run Security Scan
           </Button>
-          <Button className="bg-neon-green text-primary-foreground hover:bg-neon-green/90 glow-green">
+          <Button 
+            onClick={() => {
+              toast({
+                title: "Patch Deployment Started",
+                description: "Applying latest security patch v2.4.1...",
+              });
+            }}
+            className="bg-neon-green text-primary-foreground hover:bg-neon-green/90 glow-green"
+          >
             <Activity className="mr-2 h-4 w-4" />
             Apply Patch
           </Button>
-          <Button variant="outline" className="border-destructive/30 text-destructive hover:bg-destructive/10">
+          <Button 
+            onClick={() => {
+              toast({
+                variant: "destructive",
+                title: "Device Isolated",
+                description: "Device has been disconnected from the network",
+              });
+            }}
+            variant="outline" 
+            className="border-destructive/30 text-destructive hover:bg-destructive/10"
+          >
             <AlertCircle className="mr-2 h-4 w-4" />
             Isolate Device
           </Button>

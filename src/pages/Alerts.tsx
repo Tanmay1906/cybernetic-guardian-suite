@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Alert {
   id: string;
@@ -88,6 +89,7 @@ const statusConfig = {
 
 const Alerts = () => {
   const [filter, setFilter] = useState<"all" | "critical" | "high" | "medium" | "low">("all");
+  const { toast } = useToast();
 
   const filteredAlerts = filter === "all" ? mockAlerts : mockAlerts.filter((a) => a.severity === filter);
 
@@ -214,10 +216,29 @@ const Alerts = () => {
                     </div>
 
                     <div className="ml-4 flex gap-2">
-                      <Button size="sm" className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90">
+                      <Button 
+                        onClick={() => {
+                          toast({
+                            title: "Investigation Started",
+                            description: `Analyzing threat ${alert.id} on device ${alert.device}`,
+                          });
+                        }}
+                        size="sm" 
+                        className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90"
+                      >
                         Investigate
                       </Button>
-                      <Button size="sm" variant="outline" className="border-neon-green/30">
+                      <Button 
+                        onClick={() => {
+                          toast({
+                            title: "Alert Resolved",
+                            description: `${alert.title} has been marked as resolved`,
+                          });
+                        }}
+                        size="sm" 
+                        variant="outline" 
+                        className="border-neon-green/30"
+                      >
                         Resolve
                       </Button>
                     </div>

@@ -75,9 +75,50 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background: 
+      radial-gradient(ellipse at 10% 20%, rgba(0, 240, 255, 0.15) 0%, transparent 40%),
+      radial-gradient(ellipse at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 50%, rgba(0, 255, 170, 0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0e1a 0%, #0f1624 50%, #0a0e1a 100%);
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 240, 255, 0.03) 2px, rgba(0, 240, 255, 0.03) 4px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background-image: 
+      radial-gradient(circle, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-flow 20s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes grid-flow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  #root {
+    position: relative;
+    z-index: 2;
   }
 
   /* Cyber grid background */
@@ -125,5 +166,23 @@ All colors MUST be HSL.
 
   .pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Floating particles effect */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-20px) translateX(10px); }
+    50% { transform: translateY(-10px) translateX(-10px); }
+    75% { transform: translateY(-30px) translateX(5px); }
+  }
+
+  .particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float 10s ease-in-out infinite;
   }
 }
