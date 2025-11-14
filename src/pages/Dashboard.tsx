@@ -5,8 +5,11 @@ import { StatCard } from "@/components/StatCard";
 import { TerminalLog } from "@/components/TerminalLog";
 import { Card } from "@/components/ui/card";
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
+  const { toast } = useToast();
+  
   const threatData = [
     { time: "00:00", threats: 12 },
     { time: "04:00", threats: 8 },
@@ -184,21 +187,45 @@ const Dashboard = () => {
         <Card className="border border-neon-cyan/30 bg-card/50 backdrop-blur-xl p-6">
           <h3 className="mb-4 text-lg font-semibold text-neon-cyan">Quick Actions</h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <button className="flex items-center gap-3 rounded-lg border border-neon-cyan/30 bg-neon-cyan/5 p-4 transition-all hover:bg-neon-cyan/10 glow-cyan">
+            <button 
+              onClick={() => {
+                toast({
+                  title: "Blockchain Verification Started",
+                  description: "Verifying 200 device transactions...",
+                });
+              }}
+              className="flex items-center gap-3 rounded-lg border border-neon-cyan/30 bg-neon-cyan/5 p-4 transition-all hover:bg-neon-cyan/10 hover:scale-105 glow-cyan"
+            >
               <Database className="h-6 w-6 text-neon-cyan" />
               <div className="text-left">
                 <p className="font-medium text-foreground">Blockchain Verify</p>
                 <p className="text-xs text-muted-foreground">Check transaction logs</p>
               </div>
             </button>
-            <button className="flex items-center gap-3 rounded-lg border border-neon-green/30 bg-neon-green/5 p-4 transition-all hover:bg-neon-green/10 glow-green">
+            <button 
+              onClick={() => {
+                toast({
+                  title: "Auto-Healing Initiated",
+                  description: "Deploying patches to 24 vulnerable devices...",
+                });
+              }}
+              className="flex items-center gap-3 rounded-lg border border-neon-green/30 bg-neon-green/5 p-4 transition-all hover:bg-neon-green/10 hover:scale-105 glow-green"
+            >
               <Shield className="h-6 w-6 text-neon-green" />
               <div className="text-left">
                 <p className="font-medium text-foreground">Deploy Patch</p>
                 <p className="text-xs text-muted-foreground">Auto-heal devices</p>
               </div>
             </button>
-            <button className="flex items-center gap-3 rounded-lg border border-neon-purple/30 bg-neon-purple/5 p-4 transition-all hover:bg-neon-purple/10 glow-purple">
+            <button 
+              onClick={() => {
+                toast({
+                  title: "Alert Dashboard",
+                  description: "Viewing 12 pending security alerts",
+                });
+              }}
+              className="flex items-center gap-3 rounded-lg border border-neon-purple/30 bg-neon-purple/5 p-4 transition-all hover:bg-neon-purple/10 hover:scale-105 glow-purple"
+            >
               <AlertTriangle className="h-6 w-6 text-neon-purple" />
               <div className="text-left">
                 <p className="font-medium text-foreground">View Alerts</p>

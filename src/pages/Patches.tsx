@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 
 interface Patch {
   id: string;
@@ -75,6 +76,8 @@ const statusConfig = {
 };
 
 const Patches = () => {
+  const { toast } = useToast();
+  
   return (
     <Layout>
       <motion.div
@@ -194,7 +197,15 @@ const Patches = () => {
 
                     <div className="ml-6 flex flex-col gap-2">
                       {patch.status === "available" && (
-                        <Button className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90 glow-cyan">
+                        <Button 
+                          onClick={() => {
+                            toast({
+                              title: "Deployment Initiated",
+                              description: `Deploying ${patch.version} to ${patch.affectedDevices} devices...`,
+                            });
+                          }}
+                          className="bg-neon-cyan text-primary-foreground hover:bg-neon-cyan/90 glow-cyan"
+                        >
                           <Download className="mr-2 h-4 w-4" />
                           Deploy Now
                         </Button>
@@ -206,12 +217,30 @@ const Patches = () => {
                         </Button>
                       )}
                       {patch.status === "deployed" && (
-                        <Button variant="outline" className="border-neon-green/30 text-neon-green">
+                        <Button 
+                          onClick={() => {
+                            toast({
+                              title: "Patch Details",
+                              description: `${patch.version} successfully deployed to all devices`,
+                            });
+                          }}
+                          variant="outline" 
+                          className="border-neon-green/30 text-neon-green"
+                        >
                           <CheckCircle className="mr-2 h-4 w-4" />
                           Deployed
                         </Button>
                       )}
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        onClick={() => {
+                          toast({
+                            title: "Patch Information",
+                            description: `Viewing details for ${patch.version}`,
+                          });
+                        }}
+                        variant="outline" 
+                        size="sm"
+                      >
                         View Details
                       </Button>
                     </div>
